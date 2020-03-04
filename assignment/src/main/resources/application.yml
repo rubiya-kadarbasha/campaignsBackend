@@ -1,0 +1,45 @@
+application:
+  name: '@project.artifactId@'
+
+
+info:
+  build:
+    artifact: '@project.artifactId@'
+    name: '@project.name@'
+    description: '@project.description@'
+    version: '@project.version@' 
+
+# Allow local configuration to override Remote Externalized configuration
+spring:
+  cloud:
+    config:
+      allowOverride: true
+# But, only System properties or Env variables (and not local config files) will override externalized configuration
+      overrideSystemProperties: false
+
+    
+
+server:
+  contextPath: /rubiya
+    
+jwt:
+  secret: rubiya
+  get:
+    token:
+      uri:  /authenticate
+      
+      
+management:
+  security:
+    enabled: true
+    
+    
+#Elasticsearch properties
+elasticsearch:
+  host: localhost
+  port: 9200
+  URL: https://elastic:uDgQGECREeLx79ZCjrrQSi5j@404969a55c184776a05fefdadafa6a89.ap-northeast-1.aws.found.io:9243
+  index:
+    name: assignment
+  type:
+    name: campaings

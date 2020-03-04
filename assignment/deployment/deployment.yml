@@ -1,0 +1,64 @@
+﻿kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: example
+  namespace: assignmentcampaigns
+  selfLink: /apis/apps/v1/namespaces/assignmentcampaigns/deployments/example
+  uid: 2cc506aa-9835-4a97-b472-96fd0ac33b7a
+  resourceVersion: '261889684'
+  generation: 1
+  creationTimestamp: '2020-02-28T13:28:58Z'
+  annotations:
+    deployment.kubernetes.io/revision: '1'
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: campaigns-openshift-assignment
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: campaigns-openshift-assignment
+    spec:
+      containers:
+        - name: campaigns-openshift-assignment
+          image: 'igtb/login-redirect:0.0.7'
+          ports:
+            - containerPort: 8080
+              protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          imagePullPolicy: IfNotPresent
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30
+      dnsPolicy: ClusterFirst
+      securityContext: {}
+      schedulerName: default-scheduler
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 25%
+      maxSurge: 25%
+  revisionHistoryLimit: 10
+  progressDeadlineSeconds: 600
+status:
+  observedGeneration: 1
+  replicas: 3
+  updatedReplicas: 3
+  readyReplicas: 3
+  availableReplicas: 3
+  conditions:
+    - type: Available
+      status: 'True'
+      lastUpdateTime: '2020-02-28T13:29:15Z'
+      lastTransitionTime: '2020-02-28T13:29:15Z'
+      reason: MinimumReplicasAvailable
+      message: Deployment has minimum availability.
+    - type: Progressing
+      status: 'True'
+      lastUpdateTime: '2020-02-28T13:29:15Z'
+      lastTransitionTime: '2020-02-28T13:28:58Z'
+      reason: NewReplicaSetAvailable
+      message: ReplicaSet "example-86f8bd5d98" has successfully progressed.

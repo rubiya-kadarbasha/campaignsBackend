@@ -1,0 +1,206 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "The signup module has an action API, which is used for the following reasons. 1) To initiate the login page, if authentication is applicable for the  user, during action authorize  granting access to the system . 2) To validate the login, along with the password of the user 3) To cancel the request\n when authentication process is cancelled .4) To support the actions login and logout mechanism",
+    "version" : "1.0.0",
+    "title" : "Authentication API",
+    "contact" : {
+      "email" : "rubiyakadarbasha@gmail.com"
+    },
+    "license" : {
+      "name" : "Apache 2.0",
+      "url" : "http://www.apache.org/licenses/LICENSE-2.0.html"
+    }
+  },
+  "host" : "virtserver.swaggerhub.com",
+  "basePath" : "/rubiya/Authentication/1.0.0",
+  "tags" : [ {
+    "name" : "authentication",
+    "description" : "API to validate login credentials"
+  } ],
+  "schemes" : [ "https" ],
+  "paths" : {
+    "/v1/authentication/login" : {
+      "post" : {
+        "tags" : [ "authentication" ],
+        "summary" : "User authentication API.",
+        "description" : "API validate authentication of the user",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "Digital_Login",
+          "description" : "Request payload of login",
+          "required" : false,
+          "schema" : {
+            "$ref" : "#/definitions/Login"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Authentication successful",
+            "schema" : {
+              "$ref" : "#/definitions/SuccessResponse"
+            }
+          },
+          "401" : {
+            "description" : "Authentication Failed",
+            "schema" : {
+              "$ref" : "#/definitions/FailureResponse"
+            }
+          }
+        }
+      }
+    },
+    "/v1/authentication/logout" : {
+      "post" : {
+        "tags" : [ "authentication" ],
+        "summary" : "User authentication API.",
+        "description" : "API validate the logout session of the user",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "Digital_Login",
+          "description" : "Request payload of logout",
+          "required" : false,
+          "schema" : {
+            "$ref" : "#/definitions/Logout"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Logout successful",
+            "schema" : {
+              "$ref" : "#/definitions/SuccessResponse"
+            }
+          },
+          "422" : {
+            "description" : "Techincal Error",
+            "schema" : {
+              "$ref" : "#/definitions/FailureResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions" : {
+    "Logout" : {
+      "type" : "object",
+      "properties" : {
+        "payload" : {
+          "$ref" : "#/definitions/LogoutPayload"
+        }
+      }
+    },
+    "Login" : {
+      "type" : "object",
+      "properties" : {
+        "payload" : {
+          "$ref" : "#/definitions/LoginPayload"
+        }
+      }
+    },
+    "TxnPayload" : {
+      "required" : [ "txnDate" ],
+      "properties" : {
+        "txnDate" : {
+          "type" : "string",
+          "example" : "2018-02-01"
+        }
+      }
+    },
+    "LoginPayload" : {
+      "properties" : {
+        "username" : {
+          "type" : "string",
+          "example" : "Admin",
+          "description" : "Required for username validate."
+        },
+        "password" : {
+          "type" : "string",
+          "example" : "Admin",
+          "description" : "Required for password to authenticate"
+        },
+        "txnData" : {
+          "$ref" : "#/definitions/TxnPayload"
+        }
+      }
+    },
+    "LogoutPayload" : {
+      "properties" : {
+        "islogout" : {
+          "type" : "string",
+          "example" : "true",
+          "description" : "Required for validate the logout details ."
+        }
+      }
+    },
+    "FailureResponse" : {
+      "type" : "object",
+      "required" : [ "resCode", "resMsg", "valErrors" ],
+      "properties" : {
+        "resCode" : {
+          "type" : "string",
+          "description" : "Indicates the response code"
+        },
+        "resMsg" : {
+          "type" : "string",
+          "description" : "Indicates the response message"
+        },
+        "valErrors" : {
+          "type" : "array",
+          "description" : "Indicates the validation errors while updating preferences",
+          "items" : {
+            "$ref" : "#/definitions/ValidationErorrs"
+          }
+        }
+      },
+      "example" : {
+        "resCode" : "422/401",
+        "resMsg" : "validation failed/Invalid logout values",
+        "valErrors" : [ {
+          "code" : "LOG_VAL_ERR",
+          "field" : "username or password or logout session expiry",
+          "message" : "Invalid Details"
+        } ]
+      }
+    },
+    "ValidationErorrs" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "Indicates error codes"
+        },
+        "field" : {
+          "type" : "string",
+          "description" : "Indicates field name"
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "Indicates error message"
+        }
+      }
+    },
+    "SuccessResponse" : {
+      "type" : "object",
+      "required" : [ "resCode", "resMsg" ],
+      "properties" : {
+        "resCode" : {
+          "type" : "string",
+          "description" : "Indicates the response code"
+        },
+        "resMsg" : {
+          "type" : "string",
+          "description" : "Indicates the response message"
+        }
+      },
+      "example" : {
+        "resCode" : 200,
+        "resMsg" : "processed Successfull"
+      }
+    }
+  }
+}

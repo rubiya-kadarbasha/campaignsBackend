@@ -1,0 +1,20 @@
+﻿kind: Namespace
+apiVersion: v1
+metadata:
+  name: assignmentcampaigns
+  selfLink: /api/v1/namespaces/assignmentcampaigns
+  uid: c737d544-181e-4aa3-9cdd-d157a897f06e
+  resourceVersion: '261888371'
+  creationTimestamp: '2020-02-28T13:27:40Z'
+  annotations:
+    openshift.io/description: ''
+    openshift.io/display-name: ''
+    openshift.io/requester: rubiyakadarbasha@gmail.com
+    openshift.io/sa.scc.mcs: 's0:c72,c19'
+    openshift.io/sa.scc.supplemental-groups: 1005150000/10000
+    openshift.io/sa.scc.uid-range: 1005150000/10000
+spec:
+  finalizers:
+    - kubernetes
+status:
+  phase: Active
